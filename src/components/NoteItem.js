@@ -1,26 +1,19 @@
 import React from 'react';
-import classnames from 'classnames';
-import { connect } from 'react-redux';
 
 class NoteItem extends React.Component {
   render () {
-
     return (
-      <li className={ this.props.id }>
-        { this.props.date }
-        { this.props.time }
-        { this.props.text }
+      <li>
+        <h5>{ this.props.date }</h5>
+        <p>{ this.props.time }</p>
       </li>
     );
   }
 }
 
-let mapStateToProps = (state) => {
-  return {
-    value: state.taker.value
-  };
-};
-
-NoteItem = connect( mapStateToProps )( NoteItem );
+NoteItem.propTypes = {
+  date: React.PropTypes.string,
+  time: React.PropTypes.string,
+}
 
 export default NoteItem;

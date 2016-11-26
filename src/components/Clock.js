@@ -29,13 +29,13 @@ class Clock extends React.Component {
   componentDidMount() {
 		const displayTime = () => {
 		  this.timeoutId = setTimeout( displayTime, 500 );
-      this.setState(getNow());
+      this.setState( getNow() );
 		}
 		displayTime();
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timeoutId);
+    clearTimeout( this.timeoutId );
   }
 
 	render() {

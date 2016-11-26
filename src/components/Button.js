@@ -1,35 +1,29 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { takeNote } from '../actions';
 
 class Button extends React.Component {
-
-  handleClick = () => {
-    this.setState({
-      date: '1',
-      time: '2'
-    });
-    this.props.takeNote( state.date, state.time );
+  constructor(props) {
+    super(props);
+    this.updateNumber = this.updateNumber.bind(this);
   }
 
-  render () {
+  updateNumber() {
+    let value = Math.round( Math.random() * 100 );
+    this.props.onUpdate( value );
+  }
+
+  render() {
     return (
-      <Button
-        type="button"
-        onClick={this.handleClick}
-      >
-        지금이야!
-      </Button>
+      <div>
+        <h1>{ this.props.number }</h1>
+        <button
+          type = "button"
+          onClick = { this.updateNumber }
+        >
+          지금이야!
+        </button>
+      </div>
     );
   }
 }
-
-let mapDispatchToProps = dispatch => {
-  return {
-    onClick: ( dateValue, timeValue ) => dispatch( takeNote( dateValue, timeValue ) )
-  }
-}
-
-Button = connect( undefined, mapDispatchToProps )( Button );
 
 export default Button;
