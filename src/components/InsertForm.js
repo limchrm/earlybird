@@ -1,17 +1,29 @@
 import React from 'react';
 
+const WEEK = ['월', '화', '수', '목', '금', '토', '일'];
+
 class InsertForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: 'dldl',
-      time: 'didi'
+      going: false,
+      timeStamp: '',
+      date: '',
+      time: '',
+      action: '',
+      vehicle: '',
+      vehicleDetail: '',
     }
   }
+  
+  getNow = () => {
+    const now = new Date();
 
-  updateNumber = () => {
-    let value = Math.round( Math.random() * 100 );
-    this.props.onUpdate( value );
+    this.setState({
+      timeStamp: Math.floor( now ),
+      date: now.toLocaleDateString() + ' ' + WEEK[ now.getDay() ],
+      time: now.toLocaleTimeString('en-GB')
+    });
   }
 
   handleChange = e => {
@@ -21,37 +33,104 @@ class InsertForm extends React.Component {
   }
 
   handleClick = () => {
-    this.props.onInsert( this.state.date, this.state.time );
+    this.getNow();
+    this.props.onInsert(
+      this.state.timeStamp,
+      this.state.date,
+      this.state.time,
+      this.state.action,
+      this.state.vehicle,
+      this.state.vehicleDetail,
+    );
+  }
+  handleDeparture = () => {
+    this.getNow();
     this.setState({
-      date: '',
-      time: ''
+      going: true,
+      action: '출발',
     });
+    console.log ( this.state );
+    this.props.onInsert(
+      this.state.timeStamp,
+      this.state.date,
+      this.state.time,
+      this.state.action,
+    );
+  }
+  handleArrival = () => {
+    this.getNow();
+    this.setState({
+      going: false,
+      action: '도착',
+    });
+    console.log ( this.state );
+    this.props.onInsert(
+      this.state.timeStamp,
+      this.state.date,
+      this.state.time,
+      this.state.action,
+    );
   }
 
   render() {
-    return (
-      <div>
-        <h1>{ this.props.number }</h1>
-        <input
-          type = "text"
-          name = "date"
-          placeholder = "date"
-          value = { this.state.date }
-          onChange = { this.handleChange }
-        />
-        <input
-          type = "text"
-          name = "time"
-          placeholder = "time"
-          value = { this.state.time }
-          onChange = { this.handleChange }
-        />
+    console.log ( this.state );
+    let element;
+    if ( this.state.going ) {
+      element = (
+        <div>
+          <select
+            name = "vehicle"
+            onChange = { this.handleChange }
+          >
+            <option></option>
+            <option>버스</option>
+            <option>지하철</option>
+          </select>
+
+          <input
+            type = "text"
+            name = "vehicleDetail"
+            placeholder = "vehicleDetail"
+            value = { this.state.vehicleDetail }
+            onChange = { this.handleChange }
+          />
+
+          <select
+            name = "action"
+            onChange = { this.handleChange }
+          >
+            <option>탐</option>
+            <option>내림</option>
+          </select>
+
+          <button
+            type = "button"
+            onClick = { this.handleClick }
+          >
+            지금이야!
+          </button>
+          <button
+            type = "button"
+            onClick = { this.handleArrival }
+          >
+            도착
+          </button>
+        </div>
+      );
+    } else {
+      element = (
         <button
           type = "button"
-          onClick = { this.handleClick }
+          onClick = { this.handleDeparture }
         >
-          지금이야!
+         출발
         </button>
+      );
+    }
+
+    return (
+      <div>
+        { element }
       </div>
     );
   }

@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-class NoteItem extends React.Component {
+export default class NoteItem extends React.Component {
+  static propTypes = {
+    date: PropTypes.string,
+    time: PropTypes.string,
+    vehicle: PropTypes.string,
+    vehicleDetail: PropTypes.string,
+    action: PropTypes.string,
+  }
 
   getStyle = isSelected => {
     if ( !isSelected ) return;
@@ -23,16 +30,16 @@ class NoteItem extends React.Component {
         onClick = { this.handleClick }
         style = { this.getStyle( this.props.isSelected ) }
       >
-        <h5>{ this.props.date }</h5>
-        <p>{ this.props.time }</p>
+        <h5>
+          { this.props.date } 
+          { this.props.time }
+        </h5>
+        <p>
+          { this.props.vehicle }
+          { this.props.vehicleDetail }
+          { this.props.action }
+        </p>
       </li>
     );
   }
 }
-
-NoteItem.propTypes = {
-  date: React.PropTypes.string,
-  time: React.PropTypes.string,
-}
-
-export default NoteItem;

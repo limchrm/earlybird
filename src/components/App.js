@@ -9,29 +9,30 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: Math.round( Math.random() * 100 ),
-      notes: [
-        { date: '11. 27. 일', time: '12:00' },
-        { date: '11. 26. 토', time: '11:00' },
-        { date: '11. 25. 금', time: '10:00' },
-        { date: '11. 24. 목', time: '09:00' }
-      ],
+      notes: [],
       selectedKey: -1
     }
-    this.updateValue = this.updateValue.bind(this);
   }
 
-  updateValue( randomValue ) {
-    this.setState({
-      value: randomValue
-    });
-  }
-
-  _insertNote( dateValue, timeValue ) {
+  _insertNote(
+    timeStampValue,
+    dateValue, 
+    timeValue,
+    actionValue, 
+    vehicleValue,
+    vehicleDetailValue,
+  ) {
     if ( !dateValue || !timeValue ) return;
     let newState = update( this.state, {
       notes: {
-        $push: [{ date: dateValue, time: timeValue }]
+        $push: [{
+          timeStamp: timeStampValue,
+          date: dateValue,
+          time: timeValue,
+          action: actionValue,
+          vehicle: vehicleValue,
+          vehicleDetail: vehicleDetailValue,
+        }]
       }
     });
     this.setState( newState );
@@ -84,12 +85,16 @@ class App extends React.Component {
         { this.state.notes.map( ( note, i ) => {
           return (
             <NoteItem
+              timeStamp = { note.timeStamp }
               date = { note.date }
               time = { note.time }
+              vehicle = { note.vehicle }
+              vehicleDetail = { note.vehicleDetail }
+              action = { note.action }
               key = { i }
               noteKey = { i }
               isSelected = { this._isSelected.bind(this)(i) }
-              onSelect = { this._onSelect.bind(this) } 
+              onSelect = { this._onSelect.bind(this) }
             />
           );
         }) }

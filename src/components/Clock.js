@@ -6,20 +6,12 @@ const WEEK = ['월', '화', '수', '목', '금', '토', '일'];
 
 function getNow() {
 	const now = new Date();
-	const currentMonth = now.getMonth() + 1;
-	const currentDate = now.getDate();
-	const currentDay = now.getDay();
-	const currentHours = now.getHours();
-	const currentMinutes = now.getMinutes();
-  const currentSeconds = now.getSeconds();
+	const currentTime = now.toLocaleTimeString('en-GB');
+	const currentDate = now.toLocaleDateString() + ' ' + WEEK[ now.getDay() ];
 
 	return {
-		currentMonth,
 		currentDate,
-		currentDay,
-	 	currentHours,
-  	currentMinutes,
-    currentSeconds
+		currentTime
 	};
 }
 
@@ -40,18 +32,14 @@ class Clock extends React.Component {
 
 	render() {
 		const {
-			currentMonth,
 			currentDate,
-			currentDay,
-		 	currentHours,
-	  	currentMinutes,
-      currentSeconds
+			currentTime
 		} = this.state;
 
     return (
       <header>
-        <h3>{currentMonth}. {currentDate}. {currentDay}요일</h3>
-        <h2>{currentHours} : {currentMinutes} : {currentSeconds}</h2> 
+        <h3>{currentDate}</h3>
+        <h2>{currentTime}</h2> 
       </header>
     );
   }
